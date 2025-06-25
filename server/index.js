@@ -4,21 +4,218 @@ const cors = require('cors');
 require('dotenv').config();
 
 const Fence = require('./models/fence');
+const Gate = require('./models/gate');
+const Order = require('./models/order');
+const Review = require('./models/review');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB холбогдлоо'))
-  .catch(err => console.error(err));
+// Connect to MongoDB Atlas
+const dbURI = "mongodb+srv://bathongorhiits:bathongorhiits88056490@cluster0.mvbdlnx.mongodb.net/bathongorhiits?retryWrites=true&w=majority";
+
+mongoose.connect(dbURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('Connected to MongoDB Atlas');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
 
 app.get('/fences', async (req, res) => {
   try {
     const fences = await Fence.find();
-    res.json(fences);
+    // Map data to the format expected by the frontend
+    const formattedFences = fences.map(f => ({
+      _id: f._id,
+      name: f.name,
+      image: f.image,
+      price: f.prices ? f.prices.no_installation : null, // Send a default price
+      productType: 'fence'
+    }));
+    res.json(formattedFences);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get('/fences/:id', async (req, res) => {
+  try {
+    const fence = await Fence.findById(req.params.id);
+    if (!fence) {
+      return res.status(404).json({ message: 'Fence not found' });
+    }
+    res.json(fence);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get('/gates', async (req, res) => {
+  try {
+    const gates = await Gate.find();
+    // Map data to the format expected by the frontend
+    const formattedGates = gates.map(g => ({
+      _id: g._id,
+      name: g.type, // Use 'type' as name for gates
+      image: g.image,
+      price: g.prices ? g.prices.no_installation : null, // Send a default price
+      productType: 'gate'
+    }));
+    res.json(formattedGates);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get('/gates/:id', async (req, res) => {
+  try {
+    const gate = await Gate.findById(req.params.id);
+    if (!gate) {
+      return res.status(404).json({ message: 'Gate not found' });
+    }
+    res.json(gate);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Generic Product CRUD endpoints
+// CREATE
+app.post('/products', async (req, res) => {
+  const { productType, ...data } = req.body;
+  const Model = productType === 'fence' ? Fence : Gate;
+  try {
+    const newProduct = new Model(data);
+    await newProduct.save();
+    res.status(201).json(newProduct);
   } catch (error) {
-    res.status(500).json({ message: 'Алдаа гарлаа' });
+    res.status(400).json({ message: 'Бүтээгдэхүүн үүсгэхэд алдаа гарлаа', error });
+  }
+});
+
+// UPDATE
+app.patch('/products/:id', async (req, res) => {
+  const { productType, ...data } = req.body;
+  const Model = productType === 'fence' ? Fence : Gate;
+  try {
+    const updatedProduct = await Model.findByIdAndUpdate(req.params.id, data, { new: true, runValidators: true });
+    if (!updatedProduct) return res.status(404).json({ message: 'Бүтээгдэхүүн олдсонгүй' });
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({ message: 'Бүтээгдэхүүн засахад алдаа гарлаа', error });
+  }
+});
+
+// DELETE
+app.delete('/products/:id', async (req, res) => {
+  const { productType } = req.query; 
+  if (!productType || !['fence', 'gate'].includes(productType)) {
+    return res.status(400).json({ message: 'Invalid or missing productType' });
+  }
+  const Model = productType === 'fence' ? Fence : Gate;
+  try {
+    const deletedProduct = await Model.findByIdAndDelete(req.params.id);
+    if (!deletedProduct) {
+      // Try finding in the other model as a fallback
+      const OtherModel = productType === 'fence' ? Gate : Fence;
+      const foundInOther = await OtherModel.findById(req.params.id);
+      if (foundInOther) {
+        return res.status(400).json({ message: `Product found in wrong collection (${productType})` });
+      }
+      return res.status(404).json({ message: 'Бүтээгдэхүүн олдсонгүй' });
+    }
+    res.json({ message: 'Бүтээгдэхүүн амжилттай устгагдлаа' });
+  } catch (error) {
+    console.error('Delete product error:', error);
+    res.status(500).json({ message: 'Бүтээгдэхүүн устгахад алдаа гарлаа', error: error.message });
+  }
+});
+
+// Orders API
+app.post('/orders', async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.status(201).json(order);
+  } catch (error) {
+    res.status(400).json({ message: 'Захиалга үүсгэхэд алдаа гарлаа', error });
+  }
+});
+
+app.get('/orders', async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Захиалгуудыг авахад алдаа гарлаа' });
+  }
+});
+
+app.patch('/orders/:id', async (req, res) => {
+  try {
+    const order = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(order);
+  } catch (error) {
+    res.status(400).json({ message: 'Захиалгыг засахад алдаа гарлаа' });
+  }
+});
+
+app.delete('/orders/:id', async (req, res) => {
+  try {
+    await Order.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Захиалга устгагдлаа' });
+  } catch (error) {
+    res.status(400).json({ message: 'Захиалгыг устгахад алдаа гарлаа' });
+  }
+});
+
+// Reviews API
+app.get('/reviews', async (req, res) => {
+  try {
+    const { type, productId } = req.query;
+    const query = {};
+    
+    if (type) {
+      query.type = type;
+    }
+    
+    if (productId) {
+      query.productId = productId;
+    }
+    
+    const reviews = await Review.find(query).sort({ createdAt: -1 });
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post('/reviews', async (req, res) => {
+  try {
+    const { name, content, rating, type, productId, productModel } = req.body;
+    let reviewData;
+
+    if (type === 'public') {
+      reviewData = { name, content, rating, type };
+    } else if (type === 'product') {
+      reviewData = { name, content, rating, type, productId, productModel };
+    } else {
+      return res.status(400).json({ message: "Invalid review type specified." });
+    }
+
+    const review = new Review(reviewData);
+    const savedReview = await review.save();
+    res.status(201).json(savedReview);
+  } catch (err) {
+    console.error("Error saving review:", err);
+    res.status(400).json({ message: `Review save failed: ${err.message}` });
   }
 });
 

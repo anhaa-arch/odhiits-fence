@@ -1,4 +1,3 @@
-// server/models/Fence.js
 const mongoose = require('mongoose');
 
 const FenceSchema = new mongoose.Schema({
@@ -22,7 +21,8 @@ const FenceSchema = new mongoose.Schema({
     no_installation: Number,
     with_installation: Number
   },
-  unit: String
+  unit: String,
+  image: String
 });
 
 module.exports = mongoose.model('Fence', FenceSchema);
