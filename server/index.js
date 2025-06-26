@@ -36,7 +36,8 @@ app.get('/fences', async (req, res) => {
       _id: f._id,
       name: f.name,
       image: f.image,
-      price: f.prices ? f.prices.no_installation : null, // Send a default price
+      prices: f.prices, // Send both prices
+      unit: f.unit,
       productType: 'fence'
     }));
     res.json(formattedFences);
@@ -65,7 +66,7 @@ app.get('/gates', async (req, res) => {
       _id: g._id,
       name: g.type, // Use 'type' as name for gates
       image: g.image,
-      price: g.prices ? g.prices.no_installation : null, // Send a default price
+      prices: g.prices, // Send both prices
       productType: 'gate'
     }));
     res.json(formattedGates);

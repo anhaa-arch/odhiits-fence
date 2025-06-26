@@ -21,6 +21,7 @@ function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const fetchOrders = () => {
     setLoading(true);
@@ -53,6 +54,42 @@ function OrderList() {
     }
   };
 
+  // Modal for order details
+  const OrderDetailModal = ({ order, onClose }) => {
+    if (!order) return null;
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg relative" onClick={e => e.stopPropagation()}>
+          <button className="absolute top-2 right-3 text-2xl text-gray-500 hover:text-gray-800" onClick={onClose}>&times;</button>
+          <h2 className="text-xl font-bold mb-4">Захиалгын дэлгэрэнгүй</h2>
+          <div className="space-y-2 text-sm">
+            <div><b>Огноо:</b> {new Date(order.createdAt).toLocaleString()}</div>
+            <div><b>Нэр:</b> {order.name}</div>
+            <div><b>Утас:</b> {order.phone}</div>
+            <div><b>Төрөл:</b> {order.itemType === 'fence' ? 'Хашаа' : 'Хаалга'}</div>
+            <div><b>Суулгалт:</b> {order.install === 'yes' ? 'Суулгалттай' : 'Суулгалтгүй'}</div>
+            {order.itemType === 'fence' && (
+              <>
+                <div><b>Газрын урт:</b> {order.length} м</div>
+                <div><b>Газрын өргөн:</b> {order.width} м</div>
+                <div><b>Периметр:</b> {order.perimeter} м</div>
+              </>
+            )}
+            {order.itemType === 'gate' && (
+              <div><b>Хаалганы урт:</b> {order.gateLength} м</div>
+            )}
+            <div><b>Өндөр:</b> {order.height} м</div>
+            <div><b>Нийт м²:</b> {order.totalSqm}</div>
+            <div><b>1 м² үнэ:</b> {order.unitPrice?.toLocaleString()}₮</div>
+            <div><b>Нийт үнэ:</b> <span className="font-bold text-green-700">{order.totalPrice?.toLocaleString()}₮</span></div>
+            <div><b>Тайлбар:</b> {order.comment || '-'}</div>
+            <div><b>Статус:</b> <span className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg ${getStatusClass(order.status)}`}>{order.status}</span></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Захиалгын жагсаалт</h1>
@@ -80,33 +117,40 @@ function OrderList() {
                 <td className="p-3 text-sm text-gray-700">{order.itemType === 'fence' ? 'Хашаа' : 'Хаалга'}</td>
                 <td className="p-3 text-sm text-gray-700">{order.totalPrice?.toLocaleString()}₮</td>
                 <td className="p-3 text-sm">
-                  <span className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg ${getStatusClass(order.status)}`}>
-                    {order.status}
-                  </span>
+                  <span className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg ${getStatusClass(order.status)}`}>{order.status}</span>
                 </td>
                 <td className="p-3 text-sm text-gray-700">
-                  {order.status === 'pending' && (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleUpdateStatus(order._id, 'approved')}
-                        className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded"
-                      >
-                        Батлах
-                      </button>
-                      <button
-                        onClick={() => handleUpdateStatus(order._id, 'rejected')}
-                        className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
-                      >
-                        Цуцлах
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setSelectedOrder(order)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded"
+                    >
+                      Дэлгэрэнгүй
+                    </button>
+                    {order.status === 'pending' && (
+                      <>
+                        <button
+                          onClick={() => handleUpdateStatus(order._id, 'approved')}
+                          className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded"
+                        >
+                          Батлах
+                        </button>
+                        <button
+                          onClick={() => handleUpdateStatus(order._id, 'rejected')}
+                          className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
+                        >
+                          Цуцлах
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {selectedOrder && <OrderDetailModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />}
     </div>
   );
 }

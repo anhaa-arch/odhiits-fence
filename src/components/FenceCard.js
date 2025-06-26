@@ -21,15 +21,16 @@ function FenceCard({ product }) {
 
   return (
     <div className="h-full bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-      <Link to={linkTo} className="block group">
-        <div className="aspect-w-4 aspect-h-3">
-          <img 
-            src={image || '/images/fence1.jpg'} 
-            alt={name} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
-          />
-        </div>
-      </Link>
+   <Link to={linkTo} className="block group">
+  <div className="h-[300px] w-full overflow-hidden">
+    <img 
+      src={image || '/images/fence1.jpg'} 
+      alt={name} 
+      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+    />
+  </div>
+</Link>
+
       <div className="p-4 flex flex-col flex-grow">
         <h3 className="text-lg font-semibold text-gray-800 mb-2 truncate">
           <Link to={linkTo} className="hover:text-green-600 transition-colors">

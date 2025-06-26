@@ -1,7 +1,9 @@
 // Fence API functions
 
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 export async function getFences() {
-  const res = await fetch('http://localhost:5000/fences');
+  const res = await fetch(`${API_BASE}/fences`);
   if (!res.ok) throw new Error('Failed to fetch fences');
   return res.json();
 }

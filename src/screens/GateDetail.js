@@ -39,9 +39,9 @@ function GateDetail() {
 
   // Create a translation map for materials
   const materialTranslations = {
-    багана: 'Багана',
-    самбар: 'Самбар',
-    хүрээ: 'Хүрээ'
+    frame: 'Хүрээ',
+    panel: 'Самбар',
+    support: 'Багана',
   };
 
   // Handle both single 'image' string and 'images' array

@@ -5,7 +5,7 @@ import React from "react";
 function Footer() {
   return (
     <footer style={{ padding: '16px', borderTop: '1px solid #eee', marginTop: 32, textAlign: 'center', fontSize: 14 }}>
-      <div>Батхөнгөр Хийцэд тавтай морил</div>
+      <div>Батхонгор Хийцэд тавтай морил</div>
       <div style={{ margin: '8px 0' }}>
         <a href="/" style={{ margin: '0 8px' }}>Нүүр</a>
         <a href="/about" style={{ margin: '0 8px' }}>Бидний тухай</a>

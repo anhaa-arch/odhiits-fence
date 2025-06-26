@@ -221,7 +221,7 @@ function ProductManager() {
             <tr>
               <th className="p-3 text-sm font-semibold tracking-wide text-left">Нэр</th>
               <th className="p-3 text-sm font-semibold tracking-wide text-left">Төрөл</th>
-              <th className="p-3 text-sm font-semibold tracking-wide text-left">Үнэ (суулгалтгүй)</th>
+              <th className="p-3 text-sm font-semibold tracking-wide text-left">Үнэ (суулгалтгүй / суулгалттай)</th>
               <th className="p-3 text-sm font-semibold tracking-wide text-left">Үйлдэл</th>
             </tr>
           </thead>
@@ -230,7 +230,10 @@ function ProductManager() {
               <tr key={p._id} className="border-b hover:bg-gray-50">
                 <td className="p-3 text-sm text-gray-700">{p.name || p.type}</td>
                 <td className="p-3 text-sm text-gray-700">{p.productType === 'fence' ? 'Хашаа' : 'Хаалга'}</td>
-                <td className="p-3 text-sm text-gray-700">{p.prices?.no_installation?.toLocaleString()}₮</td>
+                <td className="p-3 text-sm text-gray-700">
+                  {p.prices?.no_installation?.toLocaleString()}₮
+                  {p.prices?.with_installation ? ` / ${p.prices.with_installation.toLocaleString()}₮` : ''}
+                </td>
                 <td className="p-3 text-sm">
                   <button onClick={() => handleEdit(p)} className="text-blue-500 hover:text-blue-700 mr-2">Засах</button>
                   <button onClick={() => handleDelete(p._id, p.productType)} className="text-red-500 hover:text-red-700">Устгах</button>
