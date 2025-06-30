@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getFences, getGates } from '../api/fenceApi';
+import { fetchFences, fetchGates } from '../api/fenceApi';
 import API_URL from '../api/config';
 
 const materialLabels = {
@@ -30,8 +30,8 @@ function OrderForm({ initialType = 'fence', initialId = '' }) {
   const [phoneError, setPhoneError] = useState('');
 
   useEffect(() => {
-    getFences().then(data => setFenceOptions(data));
-    getGates().then(data => setGateOptions(data));
+    fetchFences().then(data => setFenceOptions(data));
+    fetchGates().then(data => setGateOptions(data));
   }, []);
 
   useEffect(() => {

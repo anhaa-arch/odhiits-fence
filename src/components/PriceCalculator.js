@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getFences } from '../api/fenceApi';
+import { fetchFences } from '../api/fenceApi';
 
 function PriceCalculator() {
   const [length, setLength] = useState('');
@@ -12,7 +12,7 @@ function PriceCalculator() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getFences()
+    fetchFences()
       .then(data => {
         setFenceOptions(data);
         setSelectedFence(data[0] || null);

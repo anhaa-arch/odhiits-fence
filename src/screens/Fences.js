@@ -4,7 +4,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import FenceCard from '../components/FenceCard';
 import { useEffect, useState } from 'react';
-import { getFences } from '../api/fenceApi';
+import { fetchFences } from '../api/fenceApi';
 
 function Fences() {
   const [fences, setFences] = useState([]);
@@ -12,7 +12,7 @@ function Fences() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getFences()
+    fetchFences()
       .then(setFences)
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
