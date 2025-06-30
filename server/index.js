@@ -17,6 +17,11 @@ app.use(express.json());
 // Connect to MongoDB Atlas
 const dbURI = process.env.MONGO_URI;
 
+// Ensure we have the MongoDB URI
+if (!dbURI) {
+  console.error('MONGO_URI environment variable is not set!');
+  process.exit(1);
+}
 
 mongoose.connect(dbURI);
 
@@ -28,9 +33,14 @@ mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
 });
 
+// Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../public/images'));
+    // Use uploads directory in the root
+    const uploadDir = path.join(__dirname, 'uploads');
+    // Create directory if it doesn't exist
+    require('fs').mkdirSync(uploadDir, { recursive: true });
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -39,6 +49,9 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage });
+
+// Serve static files from the uploads directory
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/fences', async (req, res) => {
   try {
@@ -239,5 +252,5 @@ app.post('/upload', upload.single('image'), (req, res) => {
   res.json({ filename: req.file.filename });
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Сервер ${PORT} дээр ажиллаж байна`));
