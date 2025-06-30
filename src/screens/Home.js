@@ -12,9 +12,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import './Home.css'; // We'll create this file for custom styles
 import PublicReview from '../components/PublicReview';
 import PriceCard from '../components/PriceCard';
-import { fetchFences, fetchGates } from '../api/fenceApi'; // Assuming you have this
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import API_URL from '../api/config';
 
 function Home() {
   const [fences, setFences] = useState([]);

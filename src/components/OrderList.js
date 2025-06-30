@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import API_URL from '../api/config';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -8,33 +7,39 @@ const OrderList = () => {
   const [error, setError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const fetchOrders = () => {
+  const fetchOrders = async () => {
     setLoading(true);
-    fetch(`${API_URL}/orders`)
-      .then(res => res.json())
-      .then(setOrders)
-      .catch(e => setError(e.message))
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(`${API_URL}/orders`);
+      const data = await res.json();
+      setOrders(data);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchOrders();
   }, []);
 
-  const handleUpdateStatus = (id, status) => {
-    fetch(`${API_URL}/orders/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
-    })
-      .then(res => res.json())
-      .then(() => {
-        // Refresh the list after update
-        fetchOrders();
-      })
-      .catch(e => {
-        alert(`Алдаа: ${e.message}`);
+  const handleUpdateStatus = async (id, status) => {
+    try {
+      const res = await fetch(`${API_URL}/orders/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
       });
+      if (res.ok) {
+        // Refresh the list after update
+        await fetchOrders();
+      } else {
+        throw new Error('Алдаа: Өгөгдлийн ачааллаа');
+      }
+    } catch (e) {
+      alert(`Алдаа: ${e.message}`);
+    }
   };
 
   const getStatusClass = (status) => {

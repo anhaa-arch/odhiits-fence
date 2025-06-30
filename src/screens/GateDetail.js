@@ -4,8 +4,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import AnonymousReview from '../components/AnonymousReview';
 import ProductReviews from '../components/ProductReviews';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import API_URL from '../api/config';
 
 function GateDetail() {
   const { id } = useParams();

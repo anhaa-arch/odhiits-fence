@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import API_URL from '../api/config';
 
 function AnonymousReview({ productId, productType, onReviewAdded }) {
   const [name, setName] = useState('');

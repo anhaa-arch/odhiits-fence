@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/productApi';
+import API_URL from '../api/config';
 
 const ProductForm = ({ product, onSave, onCancel }) => {
   const [formData, setFormData] = useState(() => {
@@ -194,7 +195,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
               const formData = new FormData();
               formData.append('image', file);
               try {
-                const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/upload`, {
+                const res = await fetch(`${API_URL}/upload`, {
                   method: 'POST',
                   body: formData,
                 });

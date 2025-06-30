@@ -1,41 +1,92 @@
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import API_URL from './config';
 
 const api = {
-  getFences: async () => {
-    const res = await fetch(`${BASE_URL}/fences`);
-    if (!res.ok) throw new Error('Failed to fetch fences');
-    return res.json();
-  },
-  getGates: async () => {
-    const res = await fetch(`${BASE_URL}/gates`);
-    if (!res.ok) throw new Error('Failed to fetch gates');
-    return res.json();
-  },
-  saveProduct: async (productData) => {
-    const { _id, productType, ...data } = productData;
-    const url = _id ? `${BASE_URL}/products/${_id}` : `${BASE_URL}/products`;
-    const method = _id ? 'PATCH' : 'POST';
-
-    const res = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productType: productType === 'Хашаа' ? 'fence' : 'gate', ...data }),
-    });
-
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || 'Failed to save product');
+  getProducts: async () => {
+    try {
+      // Since we don't know the type, we might need to fetch both or have a generic endpoint
+      // This is a placeholder for a more robust implementation
+      const fencesRes = await fetch(`${API_URL}/fences`);
+      const gatesRes = await fetch(`${API_URL}/gates`);
+      if (!fencesRes.ok || !gatesRes.ok) {
+        throw new Error('Нэг эсвэл түүнээс дээш бүтээгдэхүүнийг татахад алдаа гарлаа');
+      }
+      const fences = await fencesRes.json();
+      const gates = await gatesRes.json();
+      return [...fences, ...gates];
+    } catch (error) {
+      console.error('Бүтээгдэхүүн татахад алдаа гарлаа:', error);
+      throw error;
     }
-    return res.json();
   },
+
+  createProduct: async (productData) => {
+    try {
+      const res = await fetch(`${API_URL}/products`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(productData),
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Бүтээгдэхүүн үүсгэхэд алдаа гарлаа');
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('Бүтээгдэхүүн үүсгэхэд алдаа гарлаа:', error);
+      throw error;
+    }
+  },
+
+  updateProduct: async (id, productData) => {
+    try {
+      const res = await fetch(`${API_URL}/products/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(productData),
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Бүтээгдэхүүн засахад алдаа гарлаа');
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('Бүтээгдэхүүн засахад алдаа гарлаа:', error);
+      throw error;
+    }
+  },
+
   deleteProduct: async (id, productType) => {
-    const res = await fetch(`${BASE_URL}/products/${id}?productType=${productType}`, { method: 'DELETE' });
-    if (!res.ok) {
-        const errorData = await res.json().catch(() => ({ message: 'Failed to delete product' }));
-        throw new Error(errorData.message);
+    try {
+      const res = await fetch(`${API_URL}/products/${id}?productType=${productType}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Бүтээгдэхүүн устгахад алдаа гарлаа');
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('Бүтээгдэхүүн устгахад алдаа гарлаа:', error);
+      throw error;
     }
-    return res.json();
-  }
+  },
+  
+  uploadImage: async (formData) => {
+    try {
+      const res = await fetch(`${API_URL}/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Зураг хуулахад алдаа гарлаа');
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('Зураг хуулахад алдаа гарлаа:', error);
+      throw error;
+    }
+  },
 };
 
 export default api; 

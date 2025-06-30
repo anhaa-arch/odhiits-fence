@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+import API_URL from '../api/config';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=";
 
 function PublicReview() {

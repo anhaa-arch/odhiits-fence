@@ -1,6 +1,6 @@
 // Fence API functions
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import API_BASE from './config';
 
 export const fetchFences = async () => {
   try {

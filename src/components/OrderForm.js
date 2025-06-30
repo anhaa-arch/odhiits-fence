@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getFences, getGates } from '../api/fenceApi';
+import API_URL from '../api/config';
 
 const materialLabels = {
   savx: 'Савх',
@@ -72,7 +73,7 @@ function OrderForm({ initialType = 'fence', initialId = '' }) {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/orders`, {
+      const res = await fetch(`${API_URL}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData)
