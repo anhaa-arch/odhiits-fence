@@ -239,13 +239,8 @@ function ProductManager() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const fences = await api.getFences();
-      const gates = await api.getGates();
-      const allProducts = [
-        ...fences.map(f => ({ ...f, productType: 'fence' })),
-        ...gates.map(g => ({ ...g, productType: 'gate' })),
-      ];
-      setProducts(allProducts);
+      const products = await api.getProducts();
+      setProducts(products);
     } catch (e) {
       setError(e.message);
     } finally {
