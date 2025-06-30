@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const multer = require('multer');
+const path = require('path');
 
 const Fence = require('./models/fence');
 const Gate = require('./models/gate');
@@ -13,12 +15,10 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB Atlas
-const dbURI = "mongodb+srv://bathongorhiits:bathongorhiits88056490@cluster0.mvbdlnx.mongodb.net/bathongorhiits?retryWrites=true&w=majority";
+const dbURI = process.env.MONGO_URI;
 
-mongoose.connect(dbURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+
+mongoose.connect(dbURI);
 
 mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB Atlas');
@@ -27,6 +27,18 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
 });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/images'));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+  }
+});
+const upload = multer({ storage });
 
 app.get('/fences', async (req, res) => {
   try {
@@ -218,6 +230,13 @@ app.post('/reviews', async (req, res) => {
     console.error("Error saving review:", err);
     res.status(400).json({ message: `Review save failed: ${err.message}` });
   }
+});
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+  res.json({ filename: req.file.filename });
 });
 
 const PORT = 5000;

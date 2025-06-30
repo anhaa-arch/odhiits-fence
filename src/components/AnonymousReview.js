@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=";
-
 function AnonymousReview({ productId, productType, onReviewAdded }) {
   const [name, setName] = useState('');
   const [review, setReview] = useState('');

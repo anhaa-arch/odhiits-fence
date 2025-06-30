@@ -84,24 +84,34 @@ const ProductForm = ({ product, onSave, onCancel }) => {
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg max-h-screen overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">{product ? 'Бүтээгдэхүүн засах' : 'Шинэ бүтээгдэхүүн'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label>Төрөл</label>
-            <select name="productType" value={formData.productType} onChange={handleChange} className="w-full border rounded p-2">
+          <div className="mb-2">
+            <label className="font-medium">Төрөл</label>
+            <select name="productType" value={formData.productType} onChange={handleChange} className="w-full border rounded p-2 mt-1">
               <option value="Хашаа">Хашаа</option>
               <option value="Хаалга">Хаалга</option>
             </select>
           </div>
-          <input type="text" name="name" placeholder="Нэр" value={formData.name || ''} onChange={handleChange} className="w-full border rounded p-2" required />
+          <div className="mb-2">
+            <label className="font-medium">Нэр</label>
+            <input type="text" name="name" placeholder="Нэр" value={formData.name || ''} onChange={handleChange} className="w-full border rounded p-2 mt-1" required />
+          </div>
           {/* Price Inputs */}
-          <div className="grid grid-cols-2 gap-4">
-            <input type="number" name="prices.no_installation" placeholder="Үнэ (суулгалтгүй)" value={formData.prices?.no_installation || ''} onChange={handleChange} className="w-full border rounded p-2" />
-            <input type="number" name="prices.with_installation" placeholder="Үнэ (суулгалттай)" value={formData.prices?.with_installation || ''} onChange={handleChange} className="w-full border rounded p-2" />
+          <div className="mb-2 grid grid-cols-2 gap-4">
+            <div>
+              <label className="font-medium">Үнэ (суулгалтгүй)</label>
+              <input type="number" name="prices.no_installation" placeholder="Үнэ (суулгалтгүй)" value={formData.prices?.no_installation || ''} onChange={handleChange} className="w-full border rounded p-2 mt-1" />
+            </div>
+            <div>
+              <label className="font-medium">Үнэ (суулгалттай)</label>
+              <input type="number" name="prices.with_installation" placeholder="Үнэ (суулгалттай)" value={formData.prices?.with_installation || ''} onChange={handleChange} className="w-full border rounded p-2 mt-1" />
+            </div>
           </div>
           {/* Material Inputs for fence only */}
           {formData.productType === 'Хашаа' && (
-            <div className="grid grid-cols-1 gap-2">
+            <div className="mb-2 p-3 bg-gray-50 rounded border">
+              <div className="font-semibold mb-2">Материалын үзүүлэлт</div>
               {['savx', 'dai', 'shon'].map((key) => (
-                <div key={key} className="flex gap-2 items-center">
+                <div key={key} className="flex gap-2 items-center mb-2">
                   <span className="w-16">{key === 'savx' ? 'Савх' : key === 'dai' ? 'Дай' : 'Шон'}</span>
                   <input
                     type="text"
@@ -123,8 +133,89 @@ const ProductForm = ({ product, onSave, onCancel }) => {
               ))}
             </div>
           )}
-          <input type="text" name="image" placeholder="Зургийн URL" value={formData.image} onChange={handleChange} className="w-full border rounded p-2" />
-          <textarea name="description" placeholder="Тайлбар" value={formData.description} onChange={handleChange} className="w-full border rounded p-2" />
+          {/* Material Inputs for gate only */}
+          {formData.productType === 'Хаалга' && formData.materials && (
+            <div className="mb-2 p-3 bg-gray-50 rounded border">
+              <div className="font-semibold mb-2">Материалын үзүүлэлт</div>
+              {['frame', 'panel', 'support'].filter(key => formData.materials[key]).map((key) => (
+                <div key={key} className="flex gap-2 items-center mb-2">
+                  <span className="w-16">{key === 'frame' ? 'Хүрээ' : key === 'panel' ? 'Самбар' : 'Багана'}</span>
+                  <input
+                    type="text"
+                    name={`materials.${key}.size`}
+                    placeholder="Хэмжээ (ж: 40x40)"
+                    value={formData.materials?.[key]?.size ?? ''}
+                    onChange={handleChange}
+                    className="border rounded p-2 flex-1"
+                  />
+                  <input
+                    type="number"
+                    name={`materials.${key}.thickness`}
+                    placeholder="Зузаан (мм)"
+                    value={formData.materials?.[key]?.thickness ?? ''}
+                    onChange={handleChange}
+                    className="border rounded p-2 w-28"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {/* Colors input for both types if colors exist */}
+          {Array.isArray(formData.colors) && (
+            <div className="mb-2 p-3 bg-gray-50 rounded border">
+              <div className="font-semibold mb-2">Өнгө</div>
+              {formData.colors.map((color, idx) => (
+                <div key={idx} className="flex items-center gap-2 mb-1">
+                  <input
+                    type="text"
+                    value={color}
+                    onChange={e => {
+                      const newColors = [...formData.colors];
+                      newColors[idx] = e.target.value;
+                      setFormData(prev => ({ ...prev, colors: newColors }));
+                    }}
+                    className="border rounded p-2 flex-1"
+                    placeholder="Өнгөний код эсвэл нэр"
+                  />
+                  <button type="button" onClick={() => {
+                    const newColors = formData.colors.filter((_, i) => i !== idx);
+                    setFormData(prev => ({ ...prev, colors: newColors }));
+                  }} className="text-red-500 hover:text-red-700">Устгах</button>
+                </div>
+              ))}
+              <button type="button" onClick={() => setFormData(prev => ({ ...prev, colors: [...(prev.colors || []), ''] }))} className="mt-1 bg-green-100 hover:bg-green-200 text-green-800 font-semibold py-1 px-3 rounded">+ Өнгө нэмэх</button>
+            </div>
+          )}
+          <div className="mb-2">
+            <label className="font-medium">Зураг</label>
+            <input type="file" accept="image/*" onChange={async (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+              const formDataUpload = new FormData();
+              formDataUpload.append('image', file);
+              try {
+                const res = await fetch('http://localhost:5000/upload', {
+                  method: 'POST',
+                  body: formDataUpload,
+                });
+                const data = await res.json();
+                if (data.filename) {
+                  setFormData(prev => ({ ...prev, image: data.filename }));
+                } else {
+                  alert('Зураг upload хийхэд алдаа гарлаа');
+                }
+              } catch (err) {
+                alert('Сервертэй холбогдож чадсангүй');
+              }
+            }} className="w-full border rounded p-2 mt-1" />
+            {formData.image && (
+              <img src={"/images/" + formData.image} alt="preview" className="mt-2 max-h-40 rounded" />
+            )}
+          </div>
+          <div className="mb-2">
+            <label className="font-medium">Тайлбар</label>
+            <textarea name="description" placeholder="Тайлбар" value={formData.description} onChange={handleChange} className="w-full border rounded p-2 mt-1" />
+          </div>
           <div className="flex justify-end gap-4 pt-4">
             <button type="button" onClick={onCancel} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Цуцлах</button>
             <button type="submit" className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Хадгалах</button>

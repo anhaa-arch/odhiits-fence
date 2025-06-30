@@ -20,10 +20,6 @@ function ProductReviews({ productId }) {
       });
   }, [productId]);
 
-  const handleNewReview = (newReview) => {
-    setReviews([newReview, ...reviews]);
-  };
-
   if (loading) {
     return <div className="text-center text-gray-600 py-8">Уншиж байна...</div>;
   }
