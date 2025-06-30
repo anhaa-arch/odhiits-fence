@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=";
 
 function ProductReviews({ productId }) {
@@ -8,7 +10,7 @@ function ProductReviews({ productId }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/reviews?type=product&productId=${productId}`)
+    fetch(`${API_URL}/reviews?type=product&productId=${productId}`)
       .then(res => res.json())
       .then(data => {
         setReviews(data);

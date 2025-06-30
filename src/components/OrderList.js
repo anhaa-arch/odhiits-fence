@@ -1,23 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-const api = {
-  getOrders: async () => {
-    const res = await fetch('http://localhost:5000/orders');
-    if (!res.ok) throw new Error('Failed to fetch orders');
-    return res.json();
-  },
-  updateOrderStatus: async (id, status) => {
-    const res = await fetch(`http://localhost:5000/orders/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
-    });
-    if (!res.ok) throw new Error('Failed to update order status');
-    return res.json();
-  },
-};
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-function OrderList() {
+const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,7 +10,8 @@ function OrderList() {
 
   const fetchOrders = () => {
     setLoading(true);
-    api.getOrders()
+    fetch(`${API_URL}/orders`)
+      .then(res => res.json())
       .then(setOrders)
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
@@ -36,7 +22,12 @@ function OrderList() {
   }, []);
 
   const handleUpdateStatus = (id, status) => {
-    api.updateOrderStatus(id, status)
+    fetch(`${API_URL}/orders/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    })
+      .then(res => res.json())
       .then(() => {
         // Refresh the list after update
         fetchOrders();

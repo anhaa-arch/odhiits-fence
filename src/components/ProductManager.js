@@ -191,12 +191,12 @@ const ProductForm = ({ product, onSave, onCancel }) => {
             <input type="file" accept="image/*" onChange={async (e) => {
               const file = e.target.files[0];
               if (!file) return;
-              const formDataUpload = new FormData();
-              formDataUpload.append('image', file);
+              const formData = new FormData();
+              formData.append('image', file);
               try {
-                const res = await fetch('http://localhost:5000/upload', {
+                const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/upload`, {
                   method: 'POST',
-                  body: formDataUpload,
+                  body: formData,
                 });
                 const data = await res.json();
                 if (data.filename) {

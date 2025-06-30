@@ -12,6 +12,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import './Home.css'; // We'll create this file for custom styles
 import PublicReview from '../components/PublicReview';
 import PriceCard from '../components/PriceCard';
+import { fetchFences, fetchGates } from '../api/fenceApi'; // Assuming you have this
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function Home() {
   const [fences, setFences] = useState([]);
@@ -54,29 +57,21 @@ function Home() {
   }, [isMobile]);
 
   useEffect(() => {
-    // Fetch fences
-    fetch('http://localhost:5000/fences')
-      .then(res => res.json())
-      .then(data => {
-        setFences(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-
-    // Fetch gates
-    fetch('http://localhost:5000/gates')
-      .then(res => res.json())
-      .then(data => {
-        setGates(data);
-        setGatesLoading(false);
-      })
-      .catch(err => {
-        setGatesError(err.message);
-        setGatesLoading(false);
-      });
+    setLoading(true);
+    Promise.all([
+      fetch(`${API_URL}/fences`).then(res => res.json()),
+      fetch(`${API_URL}/gates`).then(res => res.json())
+    ])
+    .then(([fencesData, gatesData]) => {
+      setFences(fencesData);
+      setGates(gatesData);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error("Failed to fetch products:", error);
+      setError('Бүтээгдэхүүнүүдийг татахад алдаа гарлаа.');
+      setLoading(false);
+    });
   }, []);
 
   const handlePriceCardSelect = (title) => {

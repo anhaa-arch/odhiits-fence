@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function AnonymousReview({ productId, productType, onReviewAdded }) {
   const [name, setName] = useState('');
   const [review, setReview] = useState('');
@@ -15,7 +17,7 @@ function AnonymousReview({ productId, productType, onReviewAdded }) {
     setError(null);
 
     try {
-      const res = await fetch('http://localhost:5000/reviews', {
+      const res = await fetch(`${API_URL}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

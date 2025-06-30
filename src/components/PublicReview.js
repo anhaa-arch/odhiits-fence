@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 const DEFAULT_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=";
 
 function PublicReview() {
@@ -11,7 +12,8 @@ function PublicReview() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/reviews?type=public')
+    setLoading(true);
+    fetch(`${API_URL}/reviews?type=public`)
       .then(res => res.json())
       .then(data => {
         setReviews(data);
@@ -28,7 +30,7 @@ function PublicReview() {
     if (!newReview.trim() || !name.trim()) return;
 
     try {
-      const res = await fetch('http://localhost:5000/reviews', {
+      const res = await fetch(`${API_URL}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

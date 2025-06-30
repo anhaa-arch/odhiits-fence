@@ -7,6 +7,8 @@ import Footer from '../components/footer';
 import AnonymousReview from '../components/AnonymousReview';
 import ProductReviews from '../components/ProductReviews';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function FenceDetail() {
   const { id } = useParams();
   const [fence, setFence] = useState(null);
@@ -22,7 +24,7 @@ function FenceDetail() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/fences/${id}`)
+    fetch(`${API_URL}/fences/${id}`)
       .then(res => res.json())
       .then(data => {
         setFence(data);

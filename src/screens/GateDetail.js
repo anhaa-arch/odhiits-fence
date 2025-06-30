@@ -5,6 +5,8 @@ import Footer from '../components/footer';
 import AnonymousReview from '../components/AnonymousReview';
 import ProductReviews from '../components/ProductReviews';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function GateDetail() {
   const { id } = useParams();
   const [gate, setGate] = useState(null);
@@ -13,7 +15,7 @@ function GateDetail() {
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/gates/${id}`)
+    fetch(`${API_URL}/gates/${id}`)
       .then(res => res.json())
       .then(data => {
         setGate(data);

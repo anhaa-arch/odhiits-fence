@@ -2,16 +2,26 @@
 
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-export async function getFences() {
-  const res = await fetch(`${API_BASE}/fences`);
-  if (!res.ok) throw new Error('Failed to fetch fences');
-  return res.json();
-}
+export const fetchFences = async () => {
+  try {
+    const res = await fetch(`${API_BASE}/fences`);
+    if (!res.ok) throw new Error('Network response was not ok');
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to fetch fences:", error);
+    throw error;
+  }
+};
 
-export async function getGates() {
-  const res = await fetch('http://localhost:5000/gates');
-  if (!res.ok) throw new Error('Failed to fetch gates');
-  return res.json();
-}
+export const fetchGates = async () => {
+  try {
+    const res = await fetch(`${API_BASE}/gates`);
+    if (!res.ok) throw new Error('Network response was not ok');
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to fetch gates:", error);
+    throw error;
+  }
+};
 
 // Example: export async function getFences() {} 
