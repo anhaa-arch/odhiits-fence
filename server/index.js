@@ -11,7 +11,20 @@ const Order = require('./models/order');
 const Review = require('./models/review');
 
 const app = express();
-app.use(cors());
+
+// CORS configuration
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://bathongor-fence-git-main-anhaa-archs-projects.vercel.app',
+    'https://bathongor-fence.vercel.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Connect to MongoDB Atlas
@@ -253,4 +266,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Сервер ${PORT} дээр ажиллаж байна`));
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

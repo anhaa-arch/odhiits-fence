@@ -56,20 +56,33 @@ function Home() {
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([
-      fetch(`${API_URL}/fences`).then(res => res.json()),
-      fetch(`${API_URL}/gates`).then(res => res.json())
-    ])
-    .then(([fencesData, gatesData]) => {
-      setFences(fencesData);
-      setGates(gatesData);
-      setLoading(false);
-    })
-    .catch(error => {
-      console.error("Failed to fetch products:", error);
-      setError('Бүтээгдэхүүнүүдийг татахад алдаа гарлаа.');
-      setLoading(false);
-    });
+    setGatesLoading(true);
+    
+    // Fetch fences
+    fetch(`${API_URL}/fences`)
+      .then(res => res.json())
+      .then(data => {
+        setFences(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Failed to fetch fences:", error);
+        setError('Хашааны мэдээллийг татахад алдаа гарлаа.');
+        setLoading(false);
+      });
+
+    // Fetch gates separately
+    fetch(`${API_URL}/gates`)
+      .then(res => res.json())
+      .then(data => {
+        setGates(data);
+        setGatesLoading(false);
+      })
+      .catch(error => {
+        console.error("Failed to fetch gates:", error);
+        setGatesError('Хаалганы мэдээллийг татахад алдаа гарлаа.');
+        setGatesLoading(false);
+      });
   }, []);
 
   const handlePriceCardSelect = (title) => {
