@@ -96,6 +96,21 @@ const upload = multer({ storage });
 // Serve static files from the uploads directory
 app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    status: 'API is running',
+    version: '1.0.0',
+    endpoints: {
+      fences: '/fences',
+      gates: '/gates',
+      reviews: '/reviews',
+      orders: '/orders',
+      products: '/products'
+    }
+  });
+});
+
 app.get('/fences', async (req, res) => {
   try {
     const fences = await Fence.find();
