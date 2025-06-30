@@ -2,7 +2,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import FenceCard from '../components/FenceCard';
 import { useEffect, useState } from 'react';
-import { getGates } from '../api/fenceApi';
+import { fetchGates } from '../api/fenceApi';
 
 function Gates() {
   const [gates, setGates] = useState([]);
@@ -10,7 +10,7 @@ function Gates() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getGates()
+    fetchGates()
       .then(setGates)
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
