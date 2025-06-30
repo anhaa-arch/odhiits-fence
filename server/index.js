@@ -55,9 +55,6 @@ const corsOptions = {
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Handle CORS preflight requests
-app.options('*', cors(corsOptions));
-
 app.use(express.json());
 
 // Connect to MongoDB Atlas
