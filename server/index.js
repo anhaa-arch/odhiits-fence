@@ -13,18 +13,51 @@ const Review = require('./models/review');
 const app = express();
 
 // CORS configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://bathongor-fence.vercel.app',
+  'https://bathongor-fence-git-main-anhaa-archs-projects.vercel.app',
+  'https://bathongor-fence-*.vercel.app', // Allow all Vercel preview deployments
+  'https://bathongor-fence-server.onrender.com', // Render backend domain
+  process.env.FRONTEND_URL // Allow environment-specific frontend URL
+].filter(Boolean); // Remove undefined/null values
+
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'https://bathongor-fence-git-main-anhaa-archs-projects.vercel.app',
-    'https://bathongor-fence.vercel.app'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, postman)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Check if origin matches any of our allowed patterns
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.includes('*')) {
+        // Convert wildcard pattern to regex
+        const pattern = new RegExp('^' + allowedOrigin.replace('*', '.*') + '$');
+        return pattern.test(origin);
+      }
+      return allowedOrigin === origin;
+    });
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
+
+// Handle CORS preflight requests
+app.options('*', cors(corsOptions));
+
 app.use(express.json());
 
 // Connect to MongoDB Atlas
