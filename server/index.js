@@ -18,7 +18,7 @@ const allowedOrigins = [
   'https://bathongor-fence.vercel.app',
   'https://bathongor-fence-git-main-anhaa-archs-projects.vercel.app',
   'https://bathongor-fence-*.vercel.app', // Allow all Vercel preview deployments
-  'https://bathongor-fence-server.onrender.com', // Render backend domain
+  'https://bathongor-fence-1.onrender.com', // New backend URL
   process.env.FRONTEND_URL // Allow environment-specific frontend URL
 ].filter(Boolean); // Remove undefined/null values
 
