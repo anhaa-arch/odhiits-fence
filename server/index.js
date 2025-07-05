@@ -21,6 +21,8 @@ const allowedOrigins = [
   'https://bathongor-fence-1.onrender.com', // New backend URL
   'https://bathongor-fence-6hfijcs4b-anhaa-archs-projects.vercel.app', // Current frontend URL
   'https://bathongor-fence-7bejqj069-anhaa-archs-projects.vercel.app',
+  'https://www.bathongorhiits.mn', // Production domain
+  'https://bathongorhiits.mn', // Production domain without www
   
   process.env.FRONTEND_URL // Allow environment-specific frontend URL
 ].filter(Boolean); // Remove undefined/null values
