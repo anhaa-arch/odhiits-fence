@@ -69,8 +69,8 @@ function Footer() {
         <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium uppercase tracking-[0.2em]">
           <p>© {currentYear} БАТХӨНГОР ХИЙЦ ХХК. БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.</p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#terms" className="hover:text-white transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>
