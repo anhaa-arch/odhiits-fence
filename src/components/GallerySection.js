@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { galleryItems } from '../data/gallery';
-import { ChevronRight, Filter } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 const GallerySection = () => {
   const [filter, setFilter] = useState('all');

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { calculateEstimate } from '../logic/EstimateEngine';
 import { fenceTypes } from '../data/pricing';
-import { ChevronRight, Calculator, CheckCircle, Info, Send, Shield, Zap } from 'lucide-react';
+import { Calculator, CheckCircle, Info, Send, Shield } from 'lucide-react';
 
 const SimplePriceCalculator = () => {
   const [config, setConfig] = useState({

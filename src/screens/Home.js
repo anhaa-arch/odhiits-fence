@@ -4,7 +4,7 @@ import Footer from '../components/footer';
 import GallerySection from '../components/GallerySection';
 import SimplePriceCalculator from '../components/SimplePriceCalculator';
 import ServicesSection from '../components/ServicesSection';
-import { ArrowRight, ChevronRight, Phone, Ruler } from 'lucide-react';
+import { ArrowRight, ChevronRight, Ruler } from 'lucide-react';
 
 const Home = () => {
   return (

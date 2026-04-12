@@ -24,9 +24,9 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               {[Globe, ExternalLink, Mail].map((Icon, i) => (
-                <a key={i} href="#" className="w-12 h-12 rounded-2xl bg-slate-100 hover:bg-emerald-700 hover:text-white text-slate-500 flex items-center justify-center transition-all duration-300">
+                <button key={i} type="button" className="w-12 h-12 rounded-2xl bg-slate-100 hover:bg-emerald-700 hover:text-white text-slate-500 flex items-center justify-center transition-all duration-300">
                   <Icon size={20} />
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -102,8 +102,8 @@ const Footer = () => {
             © {currentYear} ODHIITS Industrial System LLC. БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.
           </p>
           <div className="flex gap-8">
-            <a href="#" className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-700 transition-colors">Privacy Policy</a>
-            <a href="#" className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-700 transition-colors">Terms of Service</a>
+            <button type="button" className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-700 transition-colors">Privacy Policy</button>
+            <button type="button" className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-700 transition-colors">Terms of Service</button>
           </div>
         </div>
       </div>
