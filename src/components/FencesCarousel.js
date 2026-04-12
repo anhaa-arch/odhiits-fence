@@ -29,16 +29,16 @@ const FencesCarousel = ({ onProductClick }) => {
   }, []);
 
   return (
-    <section id="fences" className="py-20 bg-white overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section id="fences" className="py-24 bg-transparent overflow-hidden">
+      <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <span className="text-emerald-700 font-black uppercase tracking-[0.3em] text-xs mb-2 block">Шийдэл</span>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">Хашааны төрөл</h2>
-            <div className="h-1.5 w-24 bg-emerald-600 rounded-full"></div>
+            <span className="text-primary font-black uppercase tracking-[0.3em] text-xs mb-4 block">Шийдэл</span>
+            <h2 className="text-3xl md:text-5xl font-black heading-industrial mb-6">Хашааны төрөл</h2>
+            <div className="h-1.5 w-24 bg-primary rounded-full"></div>
           </div>
-          <p className="mt-4 md:mt-0 text-slate-500 max-w-md font-medium">
-            Бат бөх байдал, гоо зүйн төгс хослол. Байгальд ээлтэй будгийн системээр будсан.
+          <p className="mt-4 md:mt-0 text-slate-400 max-w-md">
+            ODHIITS инженерийн шийдэл бүхий бат бөх байдал, гоо зүйн төгс хослол.
           </p>
         </div>
         

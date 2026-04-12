@@ -1,83 +1,114 @@
 import React from 'react';
-import { Phone, Mail } from 'lucide-react';
+import { Mail, Phone, MapPin, ChevronRight, Calculator, Image as ImageIcon, Shield, Globe, ExternalLink } from 'lucide-react';
 
-function Footer() {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+
   return (
-    <footer className="bg-slate-950 text-slate-400 py-16">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-          {/* Brand */}
-          <div className="col-span-1 md:col-span-1">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">Б</div>
-              <div>
-                <span className="text-xl font-black text-white block leading-none">БАТХӨНГОР</span>
-                <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest leading-none mt-1">ХИЙЦ</span>
-              </div>
+    <footer className="bg-white border-t border-slate-200 pt-32 pb-16 overflow-hidden relative">
+      <div className="container-custom px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-24 mb-32">
+          {/* Brand Column */}
+          <div className="space-y-8">
+            <div className="flex items-center gap-3">
+               <div className="w-12 h-12 bg-emerald-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-900/10">
+                  <span className="font-black text-2xl italic leading-none">O</span>
+               </div>
+               <div className="flex flex-col">
+                  <h2 className="text-2xl font-black text-slate-900 tracking-tighter leading-none mb-1">ODHIITS</h2>
+                  <span className="text-[10px] font-black text-emerald-700 uppercase tracking-[0.3em] leading-none">Industrial Systems</span>
+               </div>
             </div>
-            <p className="text-sm leading-relaxed mb-6">
-              10+ жилийн туршлагатай төмөр хийцийн тэргүүлэгч үйлдвэр. Бид чанар, бат бөх байдал, гоо зүйн төгс зохицлыг эрхэмлэдэг.
+            <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-xs">
+              Манай компани 10 гаруй жил төмөр хийц, хашааны чиглэлээр амжилттай ажиллаж байна. Бидний зорилго бол таны аюулгүй байдал, гоо зүйг дээд зэргээр хангах явдал юм.
             </p>
             <div className="flex gap-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all duration-300">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all duration-300">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
+              {[Globe, ExternalLink, Mail].map((Icon, i) => (
+                <a key={i} href="#" className="w-12 h-12 rounded-2xl bg-slate-100 hover:bg-emerald-700 hover:text-white text-slate-500 flex items-center justify-center transition-all duration-300">
+                  <Icon size={20} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Холбоос</h4>
-            <ul className="space-y-4 text-sm">
-              <li><a href="#hero" className="hover:text-emerald-400 transition-colors">Нүүр</a></li>
-              <li><a href="#gates" className="hover:text-emerald-400 transition-colors">Хаалганы төрөл</a></li>
-              <li><a href="#fences" className="hover:text-emerald-400 transition-colors">Хашааны төрөл</a></li>
-              <li><a href="#videos" className="hover:text-emerald-400 transition-colors">Видео галерей</a></li>
-            </ul>
+          {/* Links Column */}
+          <div className="space-y-8">
+            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-10">Хэрэгтэй холбоосууд</h4>
+            <div className="flex flex-col gap-6">
+              {[
+                { name: 'Нүүр хуудас', href: '#home', icon: <ChevronRight size={14} /> },
+                { name: 'Загварын галерей', href: '#gallery', icon: <ImageIcon size={14} /> },
+                { name: 'Үнийн тооцоолуур', href: '#calculator', icon: <Calculator size={14} /> },
+                { name: 'Бидний үйлчилгээ', href: '#services', icon: <Shield size={14} /> }
+              ].map(link => (
+                <a key={link.name} href={link.href} className="flex items-center gap-3 text-[11px] font-black text-slate-600 uppercase tracking-widest hover:text-emerald-700 transition-colors group">
+                  <span className="text-slate-300 group-hover:text-emerald-700 transition-colors">{link.icon}</span>
+                  {link.name}
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Холбоо барих</h4>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-center gap-3">
-                <Phone size={16} className="text-emerald-500" />
-                <a href="tel:88056490" className="hover:text-emerald-400 transition-colors">88056490</a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail size={16} className="text-emerald-500" />
-                <a href="mailto:info@bathongorhiits.mn" className="hover:text-emerald-400 transition-colors">info@bathongorhiits.mn</a>
-              </li>
-              <li className="text-xs leading-relaxed">
-                Батхөнгор хийц – төмөр хашаа, хаалганы үйлдвэр, Улаанбаатар хот
-              </li>
-            </ul>
+          {/* Contact Column */}
+          <div className="space-y-8">
+            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-10">Холбоо барих</h4>
+            <div className="space-y-8">
+              <div className="flex gap-4">
+                <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-emerald-700 flex-shrink-0">
+                  <Phone size={18} />
+                </div>
+                <div>
+                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Утас</p>
+                   <p className="text-sm font-black text-slate-900 tracking-widest">88056490</p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-emerald-700 flex-shrink-0">
+                  <Mail size={18} />
+                </div>
+                <div>
+                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">И-мэйл</p>
+                   <p className="text-sm font-black text-slate-900">info@odhiits.mn</p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-emerald-700 flex-shrink-0">
+                  <MapPin size={18} />
+                </div>
+                <div>
+                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Хаяг</p>
+                   <p className="text-sm font-black text-slate-900">Улаанбаатар хот, БЗД, 1-р хороо</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Disclaimer Column */}
+          <div className="space-y-8">
+             <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-200 space-y-4">
+                <h5 className="text-[10px] font-black text-emerald-800 uppercase tracking-widest flex items-center gap-2">
+                   <Shield size={14} /> Мэдэгдэл
+                </h5>
+                <p className="text-[10px] text-slate-500 font-bold leading-relaxed italic">
+                   Сайт дээрх тооцоолуурын дүн нь урьдчилсан бөгөөд инженерийн нарийвчилсан хэмжилтийн дараа өөрчлөгдөх боломжтой.
+                </p>
+             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium uppercase tracking-[0.2em]">
-          <p>© {currentYear} БАТХӨНГОР ХИЙЦ ХХК. БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.</p>
+        {/* Bottom Strip */}
+        <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            © {currentYear} ODHIITS Industrial System LLC. БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.
+          </p>
           <div className="flex gap-8">
-            <a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#terms" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-700 transition-colors">Privacy Policy</a>
+            <a href="#" className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-700 transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;
-
- 

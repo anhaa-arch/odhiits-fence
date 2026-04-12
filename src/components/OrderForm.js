@@ -151,30 +151,30 @@ function OrderForm({ initialType = 'fence', initialId = '' }) {
                 </div>
               </div>
             )}
-            {selected.description && <div className="text-sm text-gray-700">{selected.description}</div>}
+            {selected.description && <div className="text-sm text-slate-400">{selected.description}</div>}
           </div>
         </div>
       )}
       {/* Form fields */}
       <div>
-        <label className="block mb-1 font-medium">Захиалагчийн нэр <span className="text-red-500">*</span></label>
-        <input value={name} onChange={e => setName(e.target.value)} required className="w-full border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 transition" />
+        <label className="block mb-1 font-bold text-sm uppercase tracking-widest text-slate-500 ml-2">Захиалагчийн нэр <span className="text-primary">*</span></label>
+        <input value={name} onChange={e => setName(e.target.value)} required className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition" />
       </div>
       <div>
-        <label className="block mb-1 font-medium">Захиалагчийн утас <span className="text-red-500">*</span></label>
-        <input value={phone} onChange={e => setPhone(e.target.value.replace(/[^\d]/g, '').slice(0,8))} required className="w-full border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 transition" maxLength={8} inputMode="numeric" pattern="\d{8}" />
+        <label className="block mb-1 font-bold text-sm uppercase tracking-widest text-slate-500 ml-2">Захиалагчийн утас <span className="text-primary">*</span></label>
+        <input value={phone} onChange={e => setPhone(e.target.value.replace(/[^\d]/g, '').slice(0,8))} required className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition" maxLength={8} inputMode="numeric" pattern="\d{8}" />
         {phoneError && <div className="text-red-500 text-sm mt-1 flex items-center gap-1">❗ {phoneError}</div>}
       </div>
       <div>
-        <label className="block mb-1 font-medium">Төрөл</label>
-        <select value={itemType} onChange={e => { setItemType(e.target.value); setItemId(''); }} className="w-full border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 transition">
+        <label className="block mb-1 font-bold text-sm uppercase tracking-widest text-slate-500 ml-2">Төрөл</label>
+        <select value={itemType} onChange={e => { setItemType(e.target.value); setItemId(''); }} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition">
           <option value="fence">Хашаа</option>
           <option value="gate">Хаалга</option>
         </select>
       </div>
       <div>
-        <label className="block mb-1 font-medium">{itemType === 'fence' ? 'Хашааны сонголт' : 'Хаалганы сонголт'}</label>
-        <select value={itemId} onChange={e => setItemId(e.target.value)} className="w-full border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 transition">
+        <label className="block mb-1 font-bold text-sm uppercase tracking-widest text-slate-500 ml-2">{itemType === 'fence' ? 'Хашааны сонголт' : 'Хаалганы сонголт'}</label>
+        <select value={itemId} onChange={e => setItemId(e.target.value)} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition">
           {options.map(opt => (
             <option key={opt._id} value={opt._id}>{opt.name || opt.type}</option>
           ))}

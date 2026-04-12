@@ -30,16 +30,16 @@ const GatesCarousel = ({ onProductClick }) => {
   }, []);
 
   return (
-    <section id="gates" className="py-20 bg-slate-50 overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section id="gates" className="py-24 bg-transparent overflow-hidden">
+      <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <span className="text-emerald-700 font-black uppercase tracking-[0.3em] text-xs mb-2 block">Сонголтууд</span>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">Хаалганы төрөл</h2>
-            <div className="h-1.5 w-24 bg-emerald-600 rounded-full"></div>
+            <span className="text-primary font-black uppercase tracking-[0.3em] text-xs mb-4 block">Сонголтууд</span>
+            <h2 className="text-3xl md:text-5xl font-black heading-industrial mb-6">Хаалганы төрөл</h2>
+            <div className="h-1.5 w-24 bg-primary rounded-full"></div>
           </div>
-          <p className="mt-4 md:mt-0 text-slate-500 max-w-md font-medium">
-            Бид 4 болон 5 метрийн стандарт хаалгануудаас гадна таны хүссэн хэмжээгээр үйлдвэрлэнэ.
+          <p className="mt-4 md:mt-0 text-slate-400 max-w-md">
+            Бид 4 болон 5 метрийн стандарт хаалгануудаас гадна таны хүссэн хэмжээ, загвараар ODHIITS чанарыг санал болгож байна.
           </p>
         </div>
         

@@ -6,9 +6,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#1E40AF', // өөрийн өнгө
-        secondary: '#F59E42',
-        mygreen: '#10B981',
+        primary: '#22d3ee', // cyan-400
+        secondary: '#fbbf24', // amber-400
+        accent: '#a3e635', // lime-400
+        brandDark: '#020617', // slate-950
       },
     },
   },
