@@ -6,7 +6,7 @@ const SimplePriceCalculator = () => {
   const [config, setConfig] = useState({
     selectedType: fenceOptions[0].id,
     landSize: 'custom',
-    customLength: 50,
+    customLength: '',
     height: 1.5,
     thickness: 0.8,
     gateCount: 1
@@ -15,7 +15,7 @@ const SimplePriceCalculator = () => {
   const [hasGate, setHasGate] = useState(true);
 
   const landSizeOptions = [
-    { id: 'custom', name: 'Өөрөөр оруулах', length: 50 },
+    { id: 'custom', name: 'Өөрөөр оруулах', length: '' },
     { id: '0.2', name: '0.2 га газар', length: 180 },
     { id: '0.3', name: '0.3 га газар', length: 220 },
     { id: '0.4', name: '0.4 га газар', length: 250 },
@@ -131,7 +131,10 @@ const SimplePriceCalculator = () => {
                  <input 
                    type="number"
                    value={config.customLength}
-                   onChange={(e) => handleChange('customLength', parseFloat(e.target.value) || 0)}
+                   onChange={(e) => {
+                     const val = e.target.value;
+                     handleChange('customLength', val === '' ? '' : parseFloat(val));
+                   }}
                    className="input-light h-[64px]"
                    placeholder="Урт..."
                  />
