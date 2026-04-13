@@ -42,11 +42,33 @@ const ProductCard = ({ name, image, description, bagtInfo, priceHint, tag, onZoo
         <div className="space-y-4 flex-grow">
            <div className="flex items-center gap-2 text-primary">
               <Info size={14} />
-              <span className="text-[9px] font-black uppercase tracking-widest">Багцын мэдээлэл</span>
+              <span className="text-[9px] font-black uppercase tracking-widest">Багцын иж бүрдэл:</span>
            </div>
-           <p className="text-slate-300 text-xs font-bold leading-relaxed line-clamp-3">
-             {bagtInfo || description}
-           </p>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex items-start gap-4 p-6 bg-slate-800/40 rounded-[2rem] border border-slate-800 shadow-inner">
+                 <div className="bg-primary/20 p-4 rounded-2xl text-primary">
+                    <Shield size={24} />
+                 </div>
+                 <div>
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Иж бүрдэл</h4>
+                    <p className="text-white font-black text-sm leading-tight">{bagtInfo}</p>
+                 </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-6 bg-slate-800/40 rounded-[2rem] border border-slate-800 shadow-inner">
+                 <div className="bg-primary/20 p-4 rounded-2xl text-primary">
+                    <Zap size={24} />
+                 </div>
+                 <div>
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Үзүүлэлт</h4>
+                    <p className="text-white/80 text-xs font-bold leading-relaxed">
+                       Зузаан: 0.8мм - 1.5мм<br />
+                       Хэмжээ: 2м секцээр
+                    </p>
+                 </div>
+              </div>
+            </div>
         </div>
         
         <div className="space-y-6 pt-4 border-t border-slate-800">

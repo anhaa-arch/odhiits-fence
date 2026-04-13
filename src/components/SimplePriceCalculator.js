@@ -103,6 +103,12 @@ const SimplePriceCalculator = () => {
                    <option key={t.id} value={t.id}>{t.name}</option>
                  ))}
                </select>
+               
+               {/* Information Visibility Fix: Show specs clearly below selection */}
+               <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-200 mt-2">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Иж бүрдэл бүрэлдэхүүн:</p>
+                  <p className="text-slate-700 text-sm font-black leading-relaxed">{selectedOption.bagtInfo}</p>
+               </div>
             </div>
 
             {/* Land Size / Length */}
@@ -242,7 +248,13 @@ const SimplePriceCalculator = () => {
             <div className="bg-emerald-700 p-12 rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-600 rounded-full blur-[100px] -mr-48 -mt-48 pointer-events-none opacity-50" />
                <div className="relative z-10 space-y-10">
-                  <div className="space-y-2">
+                   <div className="space-y-2">
+                     {estimate.isGateFree && (
+                       <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-white/30 text-center mb-6 animate-pulse">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-white">УРАМШУУЛАЛ ИДЭВХЖЛЭЭ</p>
+                          <p className="text-sm font-black text-white italic">100м + Захиалга: ГҮЙДЭГ ХААЛГА ҮНЭГҮЙ! 🎁</p>
+                       </div>
+                     )}
                      <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60">Урьдчилсан нийт үнэ</p>
                      <h3 className="text-5xl md:text-6xl font-black tracking-tighter italic">
                        {formatPrice(estimate.totalPrice)}
