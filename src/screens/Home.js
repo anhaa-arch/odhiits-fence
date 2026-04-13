@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import GallerySection from '../components/GallerySection';
-import SimplePriceCalculator from '../components/SimplePriceCalculator';
+import FenceValuationModule from '../components/FenceValuationModule';
 import ServicesSection from '../components/ServicesSection';
 import ProductsSection from '../components/ProductsSection';
 import ZoomModal from '../components/ZoomModal';
@@ -93,7 +93,7 @@ const Home = () => {
         <GallerySection onItemClick={handleProductClick} />
 
         {/* Calculator Section */}
-        <SimplePriceCalculator />
+        <FenceValuationModule />
 
         {/* Services Section */}
         <ServicesSection />

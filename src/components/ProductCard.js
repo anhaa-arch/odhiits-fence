@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Maximize2, Info } from 'lucide-react';
+import { Phone, Maximize2, Info, Shield, Zap } from 'lucide-react';
 
 const ProductCard = ({ name, image, description, bagtInfo, priceHint, tag, onZoom }) => {
   return (
