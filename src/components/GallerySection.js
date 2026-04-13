@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { galleryItems } from '../data/gallery';
 import { ChevronRight } from 'lucide-react';
 
-const GallerySection = () => {
+const GallerySection = ({ onItemClick }) => {
   const [filter, setFilter] = useState('all');
 
   const filteredItems = filter === 'all' 
@@ -43,7 +43,7 @@ const GallerySection = () => {
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {filteredItems.map(item => (
-            <div key={item.id} className="group card-light flex flex-col h-full bg-slate-50/30">
+            <div key={item.id} className="group card-light flex flex-col h-full bg-slate-50/30 cursor-pointer" onClick={() => onItemClick(item)}>
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img 
                   src={item.image} 
@@ -62,7 +62,10 @@ const GallerySection = () => {
                 <p className="text-[11px] md:text-xs text-slate-500 font-medium leading-relaxed mb-6 flex-grow">{item.text}</p>
                 
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                   <button className="text-[10px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-2 hover:gap-4 transition-all">
+                   <button 
+                     onClick={(e) => { e.stopPropagation(); onItemClick(item); }}
+                     className="text-[10px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-2 hover:gap-4 transition-all"
+                   >
                       Үнэ үзэх <ChevronRight size={14} />
                    </button>
                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">OD-G-{item.id}</span>

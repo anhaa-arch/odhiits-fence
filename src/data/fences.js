@@ -1,10 +1,14 @@
-export const fences = [
-  ...Array.from({ length: 15 }, (_, i) => ({
-    id: i + 1,
-    name: `ODHIITS Хашаа ${i + 1}`,
-    image: `/images/fences/fence-${i + 1}.jpg`,
-    description: "ODHIITS инженерийн шийдэл бүхий бат бөх төмөр хашаа.",
-    priceHint: "65,000₮/м-ээс",
-    tag: i % 2 === 0 ? "Стандарт" : "Премиум"
-  }))
-];
+import { fenceOptions } from './fenceOptions';
+
+export const fences = fenceOptions.map(option => ({
+  id: option.id,
+  name: option.name,
+  image: `/images/fences/fence-${option.imageIndex}.jpg`,
+  description: option.description,
+  bagtInfo: option.bagtInfo,
+  priceHint: `${option.pricePerM2.toLocaleString()}₮/м²-ээс`,
+  tag: option.recommended ? "Санал болгож буй" : "Стандарт",
+  specs: option.specs,
+  basePrice: option.pricePerM2,
+  baseThickness: option.baseThickness
+}));

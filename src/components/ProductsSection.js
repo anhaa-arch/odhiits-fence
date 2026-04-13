@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ProductCard from './ProductCard';
 import { fences } from '../data/fences';
 import { gates } from '../data/gates';
-import { Filter, SlidersHorizontal, ChevronRight } from 'lucide-react';
+import { SlidersHorizontal, ChevronRight } from 'lucide-react';
 
 const ProductsSection = ({ onProductClick }) => {
   const [activeTab, setActiveTab] = useState('fence');
@@ -117,6 +117,7 @@ const ProductsSection = ({ onProductClick }) => {
                         name={item.name}
                         image={item.image}
                         description={item.description}
+                        bagtInfo={item.bagtInfo}
                         priceHint={item.priceHint}
                         tag={item.tag}
                         onZoom={() => onProductClick(item)}

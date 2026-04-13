@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import GallerySection from '../components/GallerySection';
 import SimplePriceCalculator from '../components/SimplePriceCalculator';
 import ServicesSection from '../components/ServicesSection';
+import ProductsSection from '../components/ProductsSection';
+import ZoomModal from '../components/ZoomModal';
 import { ArrowRight, ChevronRight, Ruler } from 'lucide-react';
 
 const Home = () => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-emerald-700/10">
       <Header />
@@ -37,25 +47,9 @@ const Home = () => {
                        <a href="#calculator" className="btn-primary min-w-[200px]">
                           Үнэ тооцоолох <ArrowRight size={16} />
                        </a>
-                       <a href="#gallery" className="btn-secondary min-w-[200px]">
+                       <a href="#products" className="btn-secondary min-w-[200px]">
                           Загварууд үзэх <ChevronRight size={16} />
                        </a>
-                    </div>
-                    
-                    {/* Stats */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-10 border-t border-slate-100 max-w-lg mx-auto lg:mx-0">
-                       <div className="space-y-1">
-                          <p className="text-2xl font-black text-slate-900">1000+</p>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Хийгдсэн төсөл</p>
-                       </div>
-                       <div className="space-y-1">
-                          <p className="text-2xl font-black text-slate-900">10+</p>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Жилийн туршлага</p>
-                       </div>
-                       <div className="space-y-1 hidden sm:block">
-                          <p className="text-2xl font-black text-slate-900">100%</p>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Сэтгэл ханамж</p>
-                       </div>
                     </div>
                  </div>
 
@@ -92,8 +86,11 @@ const Home = () => {
            </div>
         </section>
 
+        {/* Products Section */}
+        <ProductsSection onProductClick={handleProductClick} />
+
         {/* Gallery Section */}
-        <GallerySection />
+        <GallerySection onItemClick={handleProductClick} />
 
         {/* Calculator Section */}
         <SimplePriceCalculator />
@@ -111,12 +108,27 @@ const Home = () => {
                        <p className="text-slate-500 font-medium leading-relaxed max-w-sm">Та үнийн санал авах, эсвэл зөвлөгөө авахыг хүсвэл доорх формоор бидэнд мэдэгдэнэ үү.</p>
                     </div>
 
-                    <div className="space-y-6 border-l-4 border-emerald-700 pl-10">
-                       <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Утас</p>
-                          <p className="text-2xl font-black text-slate-900 tracking-widest">88056490</p>
+                    <div className="space-y-8 border-l-4 border-emerald-700 pl-10">
+                       <div className="space-y-6">
+                          <div>
+                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Утас</p>
+                             <a href="tel:96461919" className="text-3xl font-black text-slate-900 tracking-widest hover:text-emerald-700 transition-colors">96461919</a>
+                          </div>
+                          <div className="flex flex-col sm:flex-row gap-4">
+                             <a href="tel:96461919" className="btn-primary py-4 px-8 text-[10px] uppercase font-black tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20">
+                                Утсаар захиалах
+                             </a>
+                             <a 
+                                href="https://www.facebook.com/odhiits/posts/948170711133231:1448460110106681" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="btn-secondary py-4 px-8 text-[10px] uppercase font-black tracking-widest flex items-center justify-center gap-2 border-slate-900 text-slate-900"
+                             >
+                                Chat-ээр захиалах
+                             </a>
+                          </div>
                        </div>
-                       <div>
+                       <div className="pt-4">
                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">И-мэйл</p>
                           <p className="text-lg font-black text-slate-900">info@odhiits.mn</p>
                        </div>
@@ -138,6 +150,12 @@ const Home = () => {
            </div>
         </section>
       </main>
+
+      <ZoomModal 
+        product={selectedProduct} 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
 
       <Footer />
     </div>
