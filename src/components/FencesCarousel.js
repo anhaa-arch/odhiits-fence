@@ -55,6 +55,9 @@ const FencesCarousel = ({ onProductClick }) => {
                 name={fence.name}
                 image={fence.image}
                 description={fence.description}
+                bagtInfo={fence.bagtInfo}
+                priceHint={fence.priceHint}
+                tag={fence.tag}
                 onZoom={() => onProductClick(fence)}
               />
             </div>
